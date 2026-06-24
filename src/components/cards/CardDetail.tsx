@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react'
 import { RARITY_STYLES, VARIANT_BADGE_LABELS } from '../../constants/cardTheme'
 import type { GameCard } from '../../types/card'
 import { getCardVariant } from '../../utils/card'
@@ -10,9 +11,12 @@ import {
   getQuoteBorderClassName,
   getTitleClassName,
 } from '../../utils/cardStyles'
+import { BiriTerminal } from '../terminal/BiriTerminal'
 
 interface CardDetailProps {
   card: GameCard
+  effectOverride?: string | null
+  onEffectGenerated: (cardId: string, effect: string | null) => void
 }
 
 function CardDetailBanner({ variant }: { variant: ReturnType<typeof getCardVariant> }) {
@@ -46,8 +50,19 @@ function CardDetailBanner({ variant }: { variant: ReturnType<typeof getCardVaria
   return null
 }
 
-export function CardDetail({ card }: CardDetailProps) {
+export function CardDetail({ card, effectOverride, onEffectGenerated }: CardDetailProps) {
   const variant = getCardVariant(card)
+  const effectText = effectOverride ?? card.description
+  const isGenerated = Boolean(effectOverride)
+  const [terminalOpen, setTerminalOpen] = useState(false)
+
+  useEffect(() => {
+    setTerminalOpen(false)
+  }, [card.id])
+
+  const toggleTerminal = () => {
+    setTerminalOpen((open) => !open)
+  }
 
   return (
     <div
@@ -77,7 +92,7 @@ export function CardDetail({ card }: CardDetailProps) {
           </span>
         </div>
 
-        <div className="flex-1 text-center sm:text-left">
+        <div className="flex-1 text-center sm:text-left w-full">
           <h2 className={`font-display text-2xl sm:text-3xl mb-1 ${getTitleClassName(variant)}`}>{card.name}</h2>
           <p className="text-sm text-lol-gold-light/70 mb-4">
             Invocador: <span className="text-lol-gold-light font-medium">{card.playerName}</span>
@@ -87,12 +102,41 @@ export function CardDetail({ card }: CardDetailProps) {
             {card.catchphrase}
           </blockquote>
 
-          <div className={`rounded-lg p-4 border ${getEffectBoxClassName(variant)}`}>
-            <h3 className={`font-display text-xs uppercase tracking-widest mb-2 ${getEffectHeadingClassName(variant)}`}>
-              Efeito da Carta
-            </h3>
-            <p className="text-sm text-lol-gold-light/80 leading-relaxed">{card.description}</p>
-          </div>
+          <button
+            type="button"
+            onClick={toggleTerminal}
+            className={`
+              w-full rounded-lg p-4 border text-left transition-all
+              ${getEffectBoxClassName(variant)}
+              ${terminalOpen
+                ? 'ring-2 ring-lime-400/50 shadow-[0_0_16px_rgba(132,204,22,0.15)]'
+                : 'hover:brightness-110 cursor-pointer hover:shadow-[0_0_12px_rgba(132,204,22,0.1)]'
+              }
+            `}
+          >
+            <div className="mb-2 flex items-center justify-between gap-2">
+              <h3 className={`font-display text-xs uppercase tracking-widest ${getEffectHeadingClassName(variant)}`}>
+                Efeito da Carta
+              </h3>
+              <span className="text-[9px] uppercase tracking-widest text-lime-400/60">
+                {terminalOpen ? 'terminal aberto' : isGenerated ? 'via terminal · clique' : 'clique p/ trocar'}
+              </span>
+            </div>
+            <p className="text-sm text-lol-gold-light/80 leading-relaxed">{effectText}</p>
+            {!terminalOpen && (
+              <p className="mt-2 text-[10px] text-lol-gold-light/40 italic">
+                Não curtiu o efeito? Clique aqui para abrir o terminal e gerar outro.
+              </p>
+            )}
+          </button>
+
+          {terminalOpen && (
+            <BiriTerminal
+              card={card}
+              onClose={() => setTerminalOpen(false)}
+              onEffectGenerated={onEffectGenerated}
+            />
+          )}
         </div>
       </div>
     </div>

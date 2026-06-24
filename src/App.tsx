@@ -6,10 +6,29 @@ import { getCardById } from './utils/card'
 
 function App() {
   const [revealedId, setRevealedId] = useState<string | null>(null)
+  const [effectOverrides, setEffectOverrides] = useState<Record<string, string>>({})
+
   const revealedCard = useMemo(
     () => (revealedId ? getCardById(cards, revealedId) : null),
     [revealedId],
   )
+
+  const effectOverride = revealedId ? effectOverrides[revealedId] ?? null : null
+
+  const handleReveal = (card: (typeof cards)[number] | null) => {
+    setRevealedId(card?.id ?? null)
+  }
+
+  const handleEffectGenerated = (cardId: string, effect: string | null) => {
+    setEffectOverrides((current) => {
+      if (!effect) {
+        const next = { ...current }
+        delete next[cardId]
+        return next
+      }
+      return { ...current, [cardId]: effect }
+    })
+  }
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -28,11 +47,21 @@ function App() {
           <CardRoulette
             cards={cards}
             revealedId={revealedId}
-            onReveal={(card) => setRevealedId(card?.id ?? null)}
+            onReveal={handleReveal}
           />
         </section>
 
-        <section>{revealedCard ? <CardDetail card={revealedCard} /> : <CardDetailPlaceholder />}</section>
+        <section>
+          {revealedCard ? (
+            <CardDetail
+              card={revealedCard}
+              effectOverride={effectOverride}
+              onEffectGenerated={handleEffectGenerated}
+            />
+          ) : (
+            <CardDetailPlaceholder />
+          )}
+        </section>
       </main>
 
       <footer className="text-center pb-6 text-xs text-lol-gold-light/30">
