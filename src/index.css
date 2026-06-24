@@ -1,0 +1,389 @@
+@import "tailwindcss";
+
+@theme {
+  --font-display: "Cinzel", serif;
+  --font-body: "Inter", sans-serif;
+
+  --color-lol-gold: #c8aa6e;
+  --color-lol-gold-light: #f0e6d2;
+  --color-lol-blue: #0a1428;
+  --color-lol-blue-light: #1e2328;
+  --color-lol-accent: #785a28;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: var(--font-body);
+  background: radial-gradient(ellipse at top, #1a2744 0%, var(--color-lol-blue) 50%, #050a14 100%);
+  color: var(--color-lol-gold-light);
+}
+
+#root {
+  min-height: 100vh;
+}
+
+.font-display {
+  font-family: var(--font-display);
+}
+
+/* Scrollbar do carrossel */
+.carousel-track::-webkit-scrollbar {
+  height: 6px;
+}
+
+.carousel-track::-webkit-scrollbar-track {
+  background: rgba(200, 170, 110, 0.1);
+  border-radius: 3px;
+}
+
+.carousel-track::-webkit-scrollbar-thumb {
+  background: var(--color-lol-gold);
+  border-radius: 3px;
+}
+
+.card-back-pattern {
+  background-color: #0a1428;
+  min-height: 100%;
+  background-image:
+    repeating-linear-gradient(
+      45deg,
+      rgba(200, 170, 110, 0.04) 0px,
+      rgba(200, 170, 110, 0.04) 2px,
+      transparent 2px,
+      transparent 10px
+    ),
+    repeating-linear-gradient(
+      -45deg,
+      rgba(200, 170, 110, 0.04) 0px,
+      rgba(200, 170, 110, 0.04) 2px,
+      transparent 2px,
+      transparent 10px
+    ),
+    radial-gradient(circle at center, rgba(200, 170, 110, 0.08) 0%, transparent 70%);
+}
+
+.card-photo-frame {
+  background: linear-gradient(180deg, rgba(10, 20, 40, 0.6) 0%, rgba(10, 20, 40, 0.95) 100%);
+}
+
+.roulette-viewport {
+  background: linear-gradient(
+    180deg,
+    rgba(10, 20, 40, 0.35) 0%,
+    rgba(10, 20, 40, 0.15) 50%,
+    rgba(10, 20, 40, 0.35) 100%
+  );
+  border-top: 1px solid rgba(200, 170, 110, 0.12);
+  border-bottom: 1px solid rgba(200, 170, 110, 0.12);
+}
+
+.roulette-card-slot {
+  height: 100%;
+  aspect-ratio: 3 / 4;
+  width: auto;
+  max-height: 100%;
+}
+
+.roulette-card-slot > * {
+  height: 100%;
+  width: 100%;
+}
+
+.roulette-winner {
+  filter: drop-shadow(0 0 12px rgba(200, 170, 110, 0.45));
+}
+
+.roulette-reveal {
+  animation: card-flip-in 0.6s ease-out both;
+}
+
+.card-detail-reveal {
+  animation: fade-up 0.5s ease-out both;
+}
+
+@keyframes card-flip-in {
+  0% {
+    opacity: 0;
+    transform: rotateY(90deg) scale(0.9);
+  }
+  100% {
+    opacity: 1;
+    transform: rotateY(0deg) scale(1);
+  }
+}
+
+@keyframes fade-up {
+  0% {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Destaque especial — cartas Gold */
+.gold-winner-slot {
+  filter: drop-shadow(0 0 24px rgba(200, 170, 110, 0.55));
+}
+
+.gold-roulette-winner {
+  animation: gold-slot-pulse 1.2s ease-in-out infinite;
+}
+
+.gold-card-highlight {
+  animation: gold-card-pulse 1.5s ease-in-out infinite;
+}
+
+.gold-card-detail {
+  box-shadow:
+    0 0 40px rgba(200, 170, 110, 0.25),
+    0 0 80px rgba(200, 170, 110, 0.15);
+  animation: gold-detail-pulse 2s ease-in-out infinite;
+}
+
+.gold-image-glow {
+  box-shadow: 0 0 20px rgba(200, 170, 110, 0.4);
+}
+
+.gold-text-glow {
+  text-shadow: 0 0 12px rgba(240, 230, 210, 0.5);
+}
+
+.gold-badge {
+  animation: gold-badge-bounce 0.6s ease-out both;
+}
+
+.gold-shimmer {
+  background: linear-gradient(
+    105deg,
+    transparent 40%,
+    rgba(200, 170, 110, 0.06) 45%,
+    rgba(240, 230, 210, 0.1) 50%,
+    rgba(200, 170, 110, 0.06) 55%,
+    transparent 60%
+  );
+  background-size: 200% 100%;
+  animation: gold-shimmer 3s ease-in-out infinite;
+}
+
+@keyframes gold-slot-pulse {
+  0%,
+  100% {
+    filter: drop-shadow(0 0 20px rgba(200, 170, 110, 0.45));
+  }
+  50% {
+    filter: drop-shadow(0 0 36px rgba(200, 170, 110, 0.75));
+  }
+}
+
+@keyframes gold-card-pulse {
+  0%,
+  100% {
+    box-shadow:
+      0 0 20px rgba(200, 170, 110, 0.35),
+      0 0 40px rgba(200, 170, 110, 0.2);
+  }
+  50% {
+    box-shadow:
+      0 0 32px rgba(200, 170, 110, 0.6),
+      0 0 64px rgba(200, 170, 110, 0.35);
+  }
+}
+
+@keyframes gold-detail-pulse {
+  0%,
+  100% {
+    box-shadow:
+      0 0 30px rgba(200, 170, 110, 0.2),
+      0 0 60px rgba(200, 170, 110, 0.1);
+  }
+  50% {
+    box-shadow:
+      0 0 50px rgba(200, 170, 110, 0.4),
+      0 0 90px rgba(200, 170, 110, 0.2);
+  }
+}
+
+@keyframes gold-badge-bounce {
+  0% {
+    opacity: 0;
+    transform: scale(0.5);
+  }
+  60% {
+    transform: scale(1.1);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes gold-shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+/* Efeito Troll — cartas biri-* */
+.troll-winner-slot {
+  filter: drop-shadow(0 0 28px rgba(132, 204, 22, 0.55)) drop-shadow(0 0 16px rgba(200, 170, 110, 0.4));
+}
+
+.troll-roulette-winner {
+  animation: troll-slot-wiggle 0.8s ease-in-out infinite;
+}
+
+.troll-card-highlight {
+  animation: troll-card-pulse 1.2s ease-in-out infinite, troll-border-flicker 2s linear infinite;
+}
+
+.troll-card-detail {
+  box-shadow:
+    0 0 40px rgba(132, 204, 22, 0.2),
+    0 0 80px rgba(200, 170, 110, 0.15);
+  animation: troll-detail-pulse 1.8s ease-in-out infinite;
+  border-color: rgba(132, 204, 22, 0.5);
+}
+
+.troll-image-glow {
+  box-shadow: 0 0 22px rgba(132, 204, 22, 0.45);
+}
+
+.troll-text-glow {
+  text-shadow: 0 0 12px rgba(190, 242, 100, 0.55);
+}
+
+.troll-badge {
+  animation: troll-badge-shake 0.5s ease-out both;
+}
+
+.troll-shimmer {
+  background: linear-gradient(
+    105deg,
+    transparent 35%,
+    rgba(132, 204, 22, 0.07) 42%,
+    rgba(250, 204, 21, 0.1) 50%,
+    rgba(132, 204, 22, 0.07) 58%,
+    transparent 65%
+  );
+  background-size: 200% 100%;
+  animation: troll-shimmer-move 2.5s ease-in-out infinite;
+}
+
+.troll-glitch {
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 3px,
+    rgba(132, 204, 22, 0.04) 3px,
+    rgba(132, 204, 22, 0.04) 6px
+  );
+  animation: troll-glitch-flicker 0.15s steps(2) infinite;
+  mix-blend-mode: overlay;
+}
+
+.troll-img-wiggle {
+  animation: troll-img-wiggle 2.5s ease-in-out infinite;
+}
+
+@keyframes troll-slot-wiggle {
+  0%,
+  100% {
+    transform: rotate(-0.6deg);
+  }
+  50% {
+    transform: rotate(0.6deg);
+  }
+}
+
+@keyframes troll-card-pulse {
+  0%,
+  100% {
+    box-shadow:
+      0 0 20px rgba(132, 204, 22, 0.35),
+      0 0 40px rgba(200, 170, 110, 0.2);
+  }
+  50% {
+    box-shadow:
+      0 0 36px rgba(132, 204, 22, 0.55),
+      0 0 60px rgba(250, 204, 21, 0.3);
+  }
+}
+
+@keyframes troll-border-flicker {
+  0%,
+  100% {
+    border-color: rgba(132, 204, 22, 0.7);
+  }
+  50% {
+    border-color: rgba(200, 170, 110, 0.8);
+  }
+}
+
+@keyframes troll-detail-pulse {
+  0%,
+  100% {
+    box-shadow:
+      0 0 30px rgba(132, 204, 22, 0.15),
+      0 0 60px rgba(200, 170, 110, 0.1);
+  }
+  50% {
+    box-shadow:
+      0 0 50px rgba(132, 204, 22, 0.35),
+      0 0 90px rgba(250, 204, 21, 0.15);
+  }
+}
+
+@keyframes troll-badge-shake {
+  0% {
+    opacity: 0;
+    transform: rotate(-8deg) scale(0.5);
+  }
+  40% {
+    transform: rotate(6deg) scale(1.15);
+  }
+  70% {
+    transform: rotate(-3deg) scale(1);
+  }
+  100% {
+    opacity: 1;
+    transform: rotate(0deg) scale(1);
+  }
+}
+
+@keyframes troll-shimmer-move {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+@keyframes troll-glitch-flicker {
+  0% {
+    opacity: 0.3;
+  }
+  100% {
+    opacity: 0.7;
+  }
+}
+
+@keyframes troll-img-wiggle {
+  0%,
+  100% {
+    transform: rotate(0deg);
+  }
+  25% {
+    transform: rotate(0.4deg);
+  }
+  75% {
+    transform: rotate(-0.4deg);
+  }
+}
